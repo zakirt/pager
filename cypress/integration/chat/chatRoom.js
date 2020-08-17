@@ -14,6 +14,11 @@ describe('Chat room page', () => {
             .get('.btn-send')
             .should('be.visible')
             .should('contain.text', 'Send');
+
+        cy
+            .get('.btn-logout')
+            .should('be.visible')
+            .should('contain.text', 'Signout');
     });
 
     it('should display the user\'s messages in the message list', () => {
@@ -66,5 +71,18 @@ describe('Chat room page', () => {
             .get('.users-typing')
             .should('be.visible')
             .should('contain.text', 'You are typing');
+    });
+
+    it.only('should signout the user and redirect to the join page', () => {
+        cy
+            .get('.btn-logout')
+            .click();
+        cy
+            .getCookie('io')
+            .its('value')
+            .should('be.empty');
+        cy
+            .url()
+            .should('eq', Cypress.config().baseUrl);
     });
 });

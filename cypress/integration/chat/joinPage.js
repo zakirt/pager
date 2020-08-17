@@ -42,6 +42,10 @@ describe('Chat join page', () => {
     it('should login user into a chat room', () => {
         cy.joinChat('pageruser');
         cy
+            .getCookie('io')
+            .its('value')
+            .should('match', /^[-_a-z0-9]{10,80}$/i);
+        cy
             .url()
             .should('eq', `${Cypress.config().baseUrl}/#/chat`);
     });
