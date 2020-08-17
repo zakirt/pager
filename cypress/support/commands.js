@@ -31,3 +31,17 @@ Cypress.Commands.add('joinChat', (username) => {
         .get('.btn')
         .click();
 });
+
+Cypress.Commands.add('enterChatMessage', (message) => {
+    cy
+        .get('input[placeholder="Message"]')
+        .type(`${message}{enter}`);
+});
+
+Cypress.Commands.add('sendChatMessage', (message) => {
+    cy
+        .get('input[placeholder="Message"]')
+        .type(`${message}`)
+        .get('.btn-send')
+        .click();
+});

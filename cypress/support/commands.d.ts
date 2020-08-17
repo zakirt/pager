@@ -1,4 +1,8 @@
 declare namespace Cypress {
+    interface MessageOptions {
+        clickSendButton: boolean
+    };
+
     interface Chainable<Subject> {
 
         /*
@@ -8,5 +12,21 @@ declare namespace Cypress {
          * cy.joinChat('testuser');
          */
         joinChat(username: string): Chainable<any>
+
+        /*
+         * Adds a new user chat message to the message list.
+         * Uses ENTER key to insert the message.
+         * @example
+         * cy.addChatMessage('Hello!');
+         */
+        enterChatMessage(message: string): Chainable<any>
+
+        /*
+         * Adds a new user chat message to the message list.
+         * Clicks "Send" button to insert the message.
+         * @example
+         * cy.addChatMessage('Hello!');
+         */
+        sendChatMessage(message: string): Chainable<any>
     }
 }
