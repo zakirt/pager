@@ -1,0 +1,20 @@
+{
+  "name": "pager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@testing-library/cypress": "^6.0.0",
+    "cypress": "~4.12.1",
+    "eslint": "^7.7.0",
+    "eslint-plugin-cypress": "^2.11.1"
+  }
+}
