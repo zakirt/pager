@@ -73,7 +73,7 @@ describe('Chat room page', () => {
             .should('contain.text', 'You are typing');
     });
 
-    it.only('should signout the user and redirect to the join page', () => {
+    it('should signout the user and redirect to the join page', () => {
         cy
             .get('.btn-logout')
             .click();
