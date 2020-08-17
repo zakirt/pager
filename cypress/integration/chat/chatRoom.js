@@ -79,8 +79,7 @@ describe('Chat room page', () => {
             .click();
         cy
             .getCookie('io')
-            .its('value')
-            .should('be.empty');
+            .should('be.null');
         cy
             .url()
             .should('eq', Cypress.config().baseUrl);

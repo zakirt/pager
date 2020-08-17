@@ -40,6 +40,9 @@ describe('Chat join page', () => {
     });
 
     it('should login user into a chat room', () => {
+        cy
+            .getCookie('io')
+            .should('be.null');
         cy.joinChat('pageruser');
         cy
             .getCookie('io')
