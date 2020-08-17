@@ -17,7 +17,7 @@ declare namespace Cypress {
          * Adds a new user chat message to the message list.
          * Uses ENTER key to insert the message.
          * @example
-         * cy.addChatMessage('Hello!');
+         * cy.enterChatMessage('Hello!');
          */
         enterChatMessage(message: string): Chainable<any>
 
@@ -25,8 +25,17 @@ declare namespace Cypress {
          * Adds a new user chat message to the message list.
          * Clicks "Send" button to insert the message.
          * @example
-         * cy.addChatMessage('Hello!');
+         * cy.sendChatMessage('Hello!');
          */
         sendChatMessage(message: string): Chainable<any>
+
+        /*
+         * Types a message into the chat input box.
+         * Unlike enterChatMessage/sendChatMessage this function does not add a new message.
+         * It only types text into the message box.
+         * @example
+         * cy.typeChatMessage('Hello!');
+         */
+        typeChatMessage(message: string): Chainable<any>
     }
 }

@@ -59,4 +59,12 @@ describe('Chat room page', () => {
                     });
             });
     });
+
+    it('should display note when typing a new message', () => {
+        cy.typeChatMessage('This is a test message');
+        cy
+            .get('.users-typing')
+            .should('be.visible')
+            .should('contain.text', 'You are typing');
+    });
 });

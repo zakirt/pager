@@ -45,3 +45,9 @@ Cypress.Commands.add('sendChatMessage', (message) => {
         .get('.btn-send')
         .click();
 });
+
+Cypress.Commands.add('typeChatMessage', (message) => {
+    cy
+        .get('input[placeholder="Message"]')
+        .type(`${message}`);
+});

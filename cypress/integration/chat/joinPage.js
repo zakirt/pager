@@ -45,6 +45,4 @@ describe('Chat join page', () => {
             .url()
             .should('eq', `${Cypress.config().baseUrl}/#/chat`);
     });
-
-
 });
