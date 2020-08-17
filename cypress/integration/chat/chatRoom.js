@@ -21,10 +21,9 @@ describe('Chat room page', () => {
             .should('contain.text', 'Signout');
     });
 
-    it.only('should display the user\'s messages in the message list', () => {
+    it('should display the user\'s messages in the message list', () => {
         const message = `Test message ${Date.now()}`;
         cy.sendChatMessage(message);
-        cy.enterChatMessage(message);
         cy
             .get('.message-slot')
             .last()
@@ -33,6 +32,30 @@ describe('Chat room page', () => {
             .scrollIntoView()
             .should('be.visible')
             .should('contain.text', message);
+        cy.enterChatMessage('Test message');
+        cy
+            .get('.message-slot')
+            .last()
+            .then(testMessageSlot)
+            .get('.message-slot:last')
+            .scrollIntoView()
+            .should('be.visible')
+            .should('contain.text', 'Test message');
+    });
+
+    it('should add a random GIF image', () => {
+        cy.enterChatMessage('/gif <img src"">');
+        cy
+            .get('.message-slot')
+            .last()
+            .then(testMessageSlot)
+            .get('.message-slot:last')
+            .scrollIntoView()
+            .get('.gif')
+            .then($gif => {
+                const giphyUrlRegex = /https:\/\/media\d\.giphy\.com\/media\/.+/
+                expect($gif.attr('src'), 'make sure it is using Giphy URL').to.match(giphyUrlRegex);
+            });
     });
 
     it('should not add empty messages', () => {
@@ -58,7 +81,7 @@ describe('Chat room page', () => {
             .should('contain.text', 'You are typing');
     });
 
-    it('should signout the user and redirect to the join page', () => {
+    it('should sign out the user and redirect to the join page', () => {
         cy
             .get('.btn-logout')
             .click();
@@ -80,10 +103,6 @@ describe('Chat room page', () => {
         const detailTimeRegex = /.*\d{1,2}:\d{1,2}\s(pm|am)/;
         expect($detail.text(), 'date/time AM/PM of the message').to.match(detailTimeRegex);
         const $messageLine = $messageSlot.find('.message-line');
-        expect($messageLine.length).to.be.gte(2);
-        // Using message var here is risky as its value might
-        // change by the time this promise resolves
-        expect($messageLine.last().prev()).to.contain.text('Test message');
-        expect($messageLine.last()).to.contain.text('Test message');
+        expect($messageLine.length).to.be.gte(1);
     }
 });
