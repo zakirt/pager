@@ -2,11 +2,6 @@
 
 describe('Chat join page', () => {
     beforeEach(() => {
-        cy.server();
-       //cy.route('GET', '/socket.io/**', '96:0{"sid":"aIr3sM5yakXDbQvnAAAs","upgrades":["websocket"],"pingInterval":25000,"pingTimeout":5000}2:40').as('usersSocket');
-        cy
-            .route('GET', '/connected-users','fixture:connected-users-empty.json')
-            .as('connectedUsersList')
         cy.visit('/#/chat');
     });
 
@@ -31,34 +26,25 @@ describe('Chat join page', () => {
             .should('contain.text', 'Next');
     });
 
-    // it('should disable "Next" button until username is filled out', () => {
-    //     cy
-    //         .get('.btn')
-    //         .should('be.disabled')
-    //         .should('have.css', 'background-color', 'rgba(255,130,5, 0.6)');
+    it('should disable "Next" button until username is filled out', () => {
+        cy
+            .get('.btn')
+            .should('be.disabled')
+            .should('have.css', 'background-color', 'rgba(255,130,5, 0.6)');
 
-    //     cy
-    //         .get('.username-input')
-    //         .type('testuser{enter}')
-    //         .get('.btn')
-    //         .should('not.be.disabled');
-    // });
-
-    it('should login user into a chat room', () => {
         cy
             .get('.username-input')
             .type('testuser{enter}')
             .get('.btn')
-            .click();
+            .should('not.be.disabled');
+    });
 
-        //cy.wait('@connectedUsersList');
-
+    it('should login user into a chat room', () => {
+        cy.joinChat('pageruser');
         cy
             .url()
             .should('eq', `${Cypress.config().baseUrl}/#/chat`);
-
-        cy.request('/connected-users', users => {
-            expect(users.body).to.empty();
-        });
     });
+
+
 });

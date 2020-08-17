@@ -2,27 +2,39 @@
 
 describe('Chat room page', () => {
     beforeEach(() => {
-        cy.visit('/chat');
+        cy.visit('/');
+        cy.joinChat('pageruser');
     });
 
-    // it('should have all the necessary DOM elements for the page', () => {
-    //     cy
-    //         .get('.messages')
-    //         .should('be.visible')
-    //         .should('contain.text', 'Join chat');
+    it('should have the necessary DOM elements on the page', () => {
+        cy
+            .get('input[placeholder="Message"]')
+            .should('be.visible');
+        cy
+            .get('.btn-send')
+            .should('be.visible')
+            .should('contain.text', 'Send');
+    });
 
-    //     cy
-    //         .get('.title')
-    //         .should('be.visible')
-    //         .should('contain.text', 'Please enter your username');
+    it('should display the user\'s messages in the message list', () => {
+        const message = `Test message ${Date.now()}`;
+        cy
+            .get('input[placeholder="Message"]')
+            .type(`${message}`)
+            .get('.btn-send')
+            .click();
 
-    //     cy
-    //         .get('.username-input')
-    //         .should('be.visible');
+        cy
+            .get('input[placeholder="Message"]')
+            .type(`${message}{enter}`)
 
-    //     cy
-    //         .get('.btn')
-    //         .should('be.visible')
-    //         .should('contain.text', 'Next');
-    // });
+        cy
+            .get('.user-message .message')
+            .should('have.length.gte', 1)
+            .last()
+            .prev()
+            .should('contain.text', message)
+            .last()
+            .should('contain.text', message);
+    });
 });
