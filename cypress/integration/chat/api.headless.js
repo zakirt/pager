@@ -22,9 +22,10 @@ describe('Chat API', () => {
                 expect(resObj.pingInterval, 'correct ping interval').to.eq(25000);
                 expect(resObj.pingTimeout, 'correct ping timeout').to.eq(5000);
                 const { headers } = res;
-                expect(headers['content-type']).to.eq('text/plain; charset=UTF-8');
-                expect(headers['set-cookie']).length.to.be.gte(1);
-                expect(headers['set-cookie'])
+                expect(headers['content-type'], 'verify Content-Type header')
+                    .to.eq('text/plain; charset=UTF-8');
+                expect(headers['set-cookie'], 'must have Set-Cookie header').length.to.be.gte(1);
+                expect(headers['set-cookie'], 'Set-Cookie include SID cookie')
                     .to.include(`io=${sid}; Path=/; HttpOnly; SameSite=Strict`);
             });
     });
