@@ -59,8 +59,7 @@ describe('Chat join page', () => {
         cy
             .wait('@userJoin')
             .then(xhr => {
-                console.log(xhr);
-                expect(xhr.status, 'success status').to.eq(200);
+                expect(xhr.status, 'check for green status').to.eq(200);
                 const queryParams = xhr.url.split('?')[1];
                 expect(queryParams, 'username should be in URI string')
                     .to.contain('username=pageruser');
