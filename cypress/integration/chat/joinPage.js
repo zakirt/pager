@@ -56,16 +56,21 @@ describe('Chat join page', () => {
         cy
             .wait('@userJoin')
             .then(xhr => {
+                console.log(xhr);
+                expect(xhr.status, 'success status').to.eq(200);
+                const queryParams = xhr.url.split('?')[1];
+                expect(queryParams, 'username should be in URI string')
+                    .to.contain('username=pageruser');
                 const body = xhr.response.body.replace(/^[^{]+(.+}).+$/, '$1');
                 const res = JSON.parse(body);
                 expect(res, 'make sure response has all of the properties')
                     .to.contain.all.keys('sid', 'upgrades', 'pingInterval', 'pingTimeout');
-                expect(res.sid, 'check for valid SID').to.match(sidRegex);
+                expect(res.sid, 'valid SID').to.match(sidRegex);
                 expect(res.upgrades, 'upgrades property must be an array').to.be.an('Array');
                 expect(res.upgrades, 'upgrades must contain "websocket" item')
                     .to.include('websocket');
-                expect(res.pingInterval, 'check for correct ping interval').to.eq(25000);
-                expect(res.pingTimeout, 'check for correct ping timeout').to.eq(5000);
+                expect(res.pingInterval, 'correct ping interval').to.eq(25000);
+                expect(res.pingTimeout, 'correct ping timeout').to.eq(5000);
             });
         cy
             .getCookie('io')
