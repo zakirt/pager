@@ -6,6 +6,7 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run",
+    "cy:verify": "cypress verify",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

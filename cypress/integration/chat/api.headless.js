@@ -21,6 +21,11 @@ describe('Chat API', () => {
                     .to.include('websocket');
                 expect(resObj.pingInterval, 'correct ping interval').to.eq(25000);
                 expect(resObj.pingTimeout, 'correct ping timeout').to.eq(5000);
+                const { headers } = res;
+                expect(headers['content-type']).to.eq('text/plain; charset=UTF-8');
+                expect(headers['set-cookie']).length.to.be.gte(1);
+                expect(headers['set-cookie'])
+                    .to.include(`io=${sid}; Path=/; HttpOnly; SameSite=Strict`);
             });
     });
 
@@ -73,6 +78,7 @@ describe('Chat API', () => {
 
     function testConnectedUsersListResponse(res, username) {
         expect(res.status, 'check for green status').to.eq(200);
+        expect(res.headers['content-type']).to.eq('application/json; charset=utf-8');
         const { users } = res.body;
         expect(users, 'users must be an array').to.be.an('Array');
         expect(users, 'must include the connected user').to.include(username);
