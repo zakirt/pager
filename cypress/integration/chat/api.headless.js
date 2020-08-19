@@ -50,7 +50,7 @@ describe('Chat API', () => {
         getSocketSession(user2)
             .then(res => retrieveSidAndConnectUser(res.body, user2))
             .then(listConnectedUsers)
-            .then(res => testConnectedUsersListResponse(res, user2));
+            .then(res => testConnectedUsersListResponse(res, user1, user2));
     });
 
     function getSocketSession(username) {
@@ -77,12 +77,12 @@ describe('Chat API', () => {
         return url;
     }
 
-    function testConnectedUsersListResponse(res, username) {
+    function testConnectedUsersListResponse(res, ...usernames) {
         expect(res.status, 'check for green status').to.eq(200);
         expect(res.headers['content-type']).to.eq('application/json; charset=utf-8');
         const { users } = res.body;
         expect(users, 'users must be an array').to.be.an('Array');
-        expect(users, 'must include the connected user').to.include(username);
+        expect(users, 'must include the connected user').to.include(...usernames);
     }
 
     function retrieveSidFromString(responseStr) {
