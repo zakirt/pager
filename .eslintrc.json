@@ -11,9 +11,10 @@
         "cypress"
     ],
     "parserOptions": {
-        "ecmaVersion": 2018
+        "ecmaVersion": 2020
     },
     "rules": {
+        "max-len": ["error", { "code": 100 }],
         "strict": [2, "global"],
         "indent": [
             "error",

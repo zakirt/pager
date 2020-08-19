@@ -6,7 +6,7 @@ describe('Chat room page', () => {
         cy.joinChat('pageruser');
     });
 
-    it('should have the necessary DOM elements on the page', () => {
+    it('checks for necessary DOM elements on the page', () => {
         cy
             .get('input[placeholder="Message"]')
             .should('be.visible');
@@ -43,7 +43,7 @@ describe('Chat room page', () => {
             .should('contain.text', 'Test message');
     });
 
-    it('should add a random GIF image', () => {
+    it('adds GIF image when /gif command is used inside message', () => {
         cy.enterChatMessage('/gif <img src"">');
         cy
             .get('.message-slot')
@@ -68,7 +68,8 @@ describe('Chat room page', () => {
                 cy
                     .get('.message-slot')
                     .then($slots => {
-                        expect($slots.length, 'Number of slots should match initial number').to.eq(numSlots);
+                        expect($slots.length, 'Number of slots should match initial number')
+                            .to.eq(numSlots);
                     });
             });
     });
@@ -81,7 +82,7 @@ describe('Chat room page', () => {
             .should('contain.text', 'You are typing');
     });
 
-    it('should sign out the user and redirect to the join page', () => {
+    it('logs out user user and redirect to the join page', () => {
         cy
             .get('.btn-logout')
             .click();
@@ -95,7 +96,8 @@ describe('Chat room page', () => {
 
     function testMessageSlot($messageSlot) {
         const $img = $messageSlot.find('.avatar');
-        const avatarUrl = `${Cypress.env('avatarApiUrl')}?background=eeeeee&color=0f0f0f&name=pageruser`;
+        const apiUrl = Cypress.env('avatarApiUrl');
+        const avatarUrl = `${apiUrl}?background=eeeeee&color=0f0f0f&name=pageruser`;
         expect($img, 'check avatar image').to.have.attr('src', avatarUrl);
         const $icon = $messageSlot.find('.icon-connected');
         expect($icon, 'connected icon should be present').to.have.lengthOf(1);
