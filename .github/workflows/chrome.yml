@@ -1,0 +1,13 @@
+name: E2E on Chrome
+on: [push]
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    name: E2E on Chrome
+    steps:
+      - uses: actions/checkout@v1
+      - uses: cypress-io/github-action@v2
+        env: 
+          CYPRESS_BASE_URL: https://pager-qa-hiring.herokuapp.com/  
+        with:            
+          browser: chrome
