@@ -29,18 +29,18 @@ describe('Chat join page', () => {
             .should('eq', `${Cypress.config().baseUrl}/#/`);
     });
 
-    // it('should disable "Next" button until username is filled out', () => {
-    //     cy
-    //         .get('.btn')
-    //         .should('be.disabled')
-    //         .should('have.css', 'background-color', 'rgba(255,130,5, 0.6)');
+    it('should disable "Next" button until username is filled out', () => {
+        cy
+            .get('.btn')
+            .should('be.disabled')
+            .should('have.css', 'background-color', 'rgba(255,130,5, 0.6)');
 
-    //     cy
-    //         .get('.username-input')
-    //         .type('testuser{enter}')
-    //         .get('.btn')
-    //         .should('not.be.disabled');
-    // });
+        cy
+            .get('.username-input')
+            .type('testuser{enter}')
+            .get('.btn')
+            .should('not.be.disabled');
+    });
 
     it('should login user into a chat room', () => {
         cy

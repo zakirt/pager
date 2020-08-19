@@ -82,17 +82,17 @@ describe('Chat room page', () => {
             .should('contain.text', 'You are typing');
     });
 
-    // it('logs out user user and redirect to the join page', () => {
-    //     cy
-    //         .get('.btn-logout')
-    //         .click();
-    //     cy
-    //         .getCookie('io')
-    //         .should('be.null');
-    //     cy
-    //         .url()
-    //         .should('eq', Cypress.config().baseUrl);
-    // });
+    it('logs out user user and redirect to the join page', () => {
+        cy
+            .get('.btn-logout')
+            .click();
+        cy
+            .getCookie('io')
+            .should('be.null');
+        cy
+            .url()
+            .should('eq', Cypress.config().baseUrl);
+    });
 
     function testMessageSlot($messageSlot) {
         const $img = $messageSlot.find('.avatar');
