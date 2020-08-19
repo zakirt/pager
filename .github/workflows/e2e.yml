@@ -1,0 +1,30 @@
+name: E2E for multiple browsers
+on: [push]
+jobs:
+  chrome:
+    runs-on: ubuntu-latest
+    name: Chrome (Linux)
+    steps:
+      - uses: actions/checkout@v1
+      - uses: cypress-io/github-action@v2
+        with:            
+          browser: chrome
+  firefox:
+    runs-on: ubuntu-latest
+    name: Firefox 83 (Linux)
+    container:
+      image: cypress/browsers:node12.14.1-chrome83-ff77
+      options: --user 1001
+    steps:
+      - uses: actions/checkout@v1
+      - uses: cypress-io/github-action@v2
+        with:
+          browser: firefox
+  edge:
+    runs-on: windows-latest
+    name: Edge (Windows)
+    steps:
+      - uses: actions/checkout@v1
+      - uses: cypress-io/github-action@v2
+        with:
+          browser: edge
