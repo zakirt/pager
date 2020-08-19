@@ -2,5 +2,6 @@
     "baseUrl": "https://pager-qa-hiring.herokuapp.com",
     "viewportWidth": 960,
     "viewportHeight": 800,
-    "$schema": "https://on.cypress.io/cypress.schema.json"
+    "$schema": "https://on.cypress.io/cypress.schema.json",
+    "experimentalFetchPolyfill": true
   }

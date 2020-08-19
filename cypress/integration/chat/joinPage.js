@@ -8,6 +8,9 @@ describe('Chat join page', () => {
         cy
             .route('GET', '/socket.io/*')
             .as('userJoin');
+        cy
+            .route('GET', '/connected-users')
+            .as('userConnected');
         cy.visit('/');
     });
 
@@ -71,6 +74,14 @@ describe('Chat join page', () => {
                     .to.include('websocket');
                 expect(res.pingInterval, 'correct ping interval').to.eq(25000);
                 expect(res.pingTimeout, 'correct ping timeout').to.eq(5000);
+            });
+        cy
+            .wait('@userConnected')
+            .then(conn => {
+                expect(conn.status, 'check for green status').to.eq(200);
+                const { users } = conn.response.body;
+                expect(users, 'array with users is expected').to.be.an('Array');
+                expect(users, 'signed in user must be in the list').to.include('pageruser');
             });
         cy
             .getCookie('io')
