@@ -27,16 +27,24 @@ describe('Chat API', () => {
 
     it('returns confirmation that user with specified SID is connected', () => {
         getSocketSession()
-            .then(res => {
-                const sid = retrieveSidFromString(res.body);
-                return connectUser(sid);
-            })
+            .then(retrieveSidFromResponseAndConnectUser)
             .then(res => {
                 expect(res.status, 'check for green status').to.eq(200);
                 expect(res.body).to.contain(`["user-connected","${username}"]`);
             });
     });
 
+    it('retrieves a list of connected users', () => {
+        getSocketSession()
+            .then(retrieveSidFromResponseAndConnectUser)
+            .then(() => listConnectedUsers())
+            .then(res => {
+                expect(res.status, 'check for green status').to.eq(200);
+                const { users } = res.body;
+                expect(users, 'users must be an array').to.be.an('Array');
+                expect(users, 'must include the connected user').to.include(username);
+            });
+    });
 
     function getSocketSession() {
         const url = createSockerUrl();
@@ -44,8 +52,12 @@ describe('Chat API', () => {
     }
 
     function connectUser(sid) {
-        console.log('sid ', sid);
         const url = createSockerUrl(sid);
+        return cy.request(url);
+    }
+
+    function listConnectedUsers() {
+        const url = '/connected-users';
         return cy.request(url);
     }
 
@@ -67,5 +79,10 @@ describe('Chat API', () => {
         const joinResponseObjectRegex = /^[^{]+(.+}).+$/;
         const objStr = resStr.replace(joinResponseObjectRegex, '$1');
         return JSON.parse(objStr);
+    }
+
+    function retrieveSidFromResponseAndConnectUser(res) {
+        const sid = retrieveSidFromString(res.body);
+        return connectUser(sid);
     }
 });
